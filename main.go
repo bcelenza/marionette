@@ -61,10 +61,16 @@ func handleEcho(res http.ResponseWriter, req *http.Request) {
 	res.Write(reqBody.Bytes())
 }
 
+func handleOk(res http.ResponseWriter, req *http.Request) {
+	res.WriteHeader(200)
+	res.Write([]byte("chirp"))
+}
+
 func main() {
 	port := getEnvOrDefault("HTTP_PORT", "8080")
 	log.Info("Starting Mockingbird on port ", port)
 	http.HandleFunc("/echo", handleEcho)
+	http.HandleFunc("/", handleOk)
 	log.Fatalln(http.ListenAndServe(fmt.Sprintf(":%s", port), nil))
 }
 
